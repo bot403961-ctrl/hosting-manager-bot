@@ -1,25 +1,12 @@
-from dotenv import load_dotenv
-load_dotenv()
-import telebot, requests, os, json, re, base64
+import telebot, requests, os, json, re
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
+BH_KEY = os.environ.get("H1", "")
+LARP_KEY = os.environ.get("H2", "")
+DEP_ID = os.environ.get("H3", "")
 
-H1 = os.environ.get("H1", "")
-H2 = os.environ.get("H2", "")
-H3 = os.environ.get("H3", "")
-
-def _d(s):
-    try:
-        return base64.b64decode(s).decode()
-    except:
-        return s
-
-BH_KEY = _d(H1)
-LARP_KEY = _d(H2)
-DEP_ID = H3
-
-BASE = base64.b64decode("aHR0cHM6Ly9ib3QtaG9zdGluZy5uZXQvYXBpL3Yx").decode()
+BASE = "https://bot-hosting.net/api/v1"
 H = {"Authorization": f"Bearer {BH_KEY}", "Content-Type": "application/json"}
 
 bot = telebot.TeleBot(BOT_TOKEN)
