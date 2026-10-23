@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 import telebot, requests, os, json, re, base64
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
