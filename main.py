@@ -2,9 +2,9 @@ import telebot, requests, os, json, re
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
-BH_KEY = os.environ.get("H1", "")
-LARP_KEY = os.environ.get("H2", "")
-DEP_ID = os.environ.get("H3", "")
+BH_KEY = os.environ.get("BH_KEY", "")
+LARP_KEY = os.environ.get("LARP_KEY", "")
+DEP_ID = os.environ.get("DEP_ID", "")
 
 BASE = "https://bot-hosting.net/api/v1"
 H = {"Authorization": f"Bearer {BH_KEY}", "Content-Type": "application/json"}
