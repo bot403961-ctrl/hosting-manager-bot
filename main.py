@@ -2,12 +2,12 @@ from dotenv import load_dotenv
 load_dotenv()
 import telebot, requests, os, json, re, base64
 
-BOT_TOKEN = "8938390917:AAGuZu7gEbVW1k17bHk0AhNoMrK58MyfpWE"
-ADMIN_ID = 8972941677
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
+ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
 
-H1 = "YmhrXzFkNjUzYTAzOGRkMjEyMWY3MzZmNWNjYjRlODJmMmJkYWI2YWU0NGM2OTQ3MGM3OA=="
-H2 = "bHJzay1hY2Y2MGQzZTBmZWVkMDI1MzMwYmQ5MDRlZDYzNDdjNTI4MmI4MmNkOWYxZjgzYWYzYmVkNzI0Yjk0ODc0YzIy"
-H3 = "7dbbcba4-13ad-4307-9292-f5bef4f43078"
+H1 = os.environ.get("H1", "")
+H2 = os.environ.get("H2", "")
+H3 = os.environ.get("H3", "")
 
 def _d(s):
     try:
