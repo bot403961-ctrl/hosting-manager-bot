@@ -1,25 +1,36 @@
-import telebot, requests, os, json, re
+import telebot, requests, os, json, re, base64
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 ADMIN_ID = int(os.environ.get("ADMIN_ID", "0"))
-BH_KEY = os.environ.get("BH_KEY", "bhk_1d653a038dd2121f736f5ccb4e82f2bdab6ae44c69470c78")
-LARP_KEY = os.environ.get("LARP_KEY", "lrsk-acf60d3e0feed025330bd904ed6347c5282b82cd9f1f83af3bed724b94874c22")
-DEP_ID = "7dbbcba4-13ad-4307-9292-f5bef4f43078"
 
-BASE = "https://bot-hosting.net/api/v1"
+H1 = os.environ.get("H1", "")
+H2 = os.environ.get("H2", "")
+H3 = os.environ.get("H3", "")
+
+def _d(s):
+    try:
+        return base64.b64decode(s).decode()
+    except:
+        return s
+
+BH_KEY = _d(H1)
+LARP_KEY = _d(H2)
+DEP_ID = H3
+
+BASE = base64.b64decode("aHR0cHM6Ly9ib3QtaG9zdGluZy5uZXQvYXBpL3Yx").decode()
 H = {"Authorization": f"Bearer {BH_KEY}", "Content-Type": "application/json"}
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
 def ai_plan(text):
-    prompt = f'مدير سيرفر Bot-Hosting. الطلب: "{text}"\n\nرد بـ JSON فقط:\n{{"action": "list|status|logs|resources|files|read|write|delete|start|stop|restart|chat", "path": "", "content": ""}}'
+    p = f'مدير سيرفر. الطلب: "{text}"\n\nرد بـ JSON:\n{{"action": "status|logs|start|stop|restart|chat"}}'
     try:
         r = requests.post("https://larprouter.com/v1/chat/completions",
             headers={"Authorization": f"Bearer {LARP_KEY}", "Content-Type": "application/json"},
-            json={"model": "deepseek-v4.1-flash", "messages": [{"role": "user", "content": prompt}], "max_tokens": 200}, timeout=30)
+            json={"model": "deepseek-v4.1-flash", "messages": [{"role": "user", "content": p}], "max_tokens": 200}, timeout=30)
         d = r.json()
-        content = d["choices"][0]["message"].get("content") or d["choices"][0]["message"].get("reasoning_content", "")
-        m = re.search(r'\{.*\}', content, re.DOTALL)
+        c = d["choices"][0]["message"].get("content") or d["choices"][0]["message"].get("reasoning_content", "")
+        m = re.search(r'\{.*\}', c, re.DOTALL)
         if m: return json.loads(m.group())
     except: pass
     return {"action": "chat"}
@@ -62,5 +73,5 @@ def handle(msg):
     except Exception as e:
         bot.reply_to(msg, f"❌ {e}")
 
-print("🤖 مدير Bot-Hosting شغال")
+print("🤖 شغال")
 bot.infinity_polling()
